@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FuturProctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <!-- Header Section -->
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white; height: 80px;">
+                <!-- Start Exam Button on the Left -->
+                <button id="start-exam-btn" class="btn btn-success">Start Exam</button>
+                
+                <!-- Welcome Text Centered -->
+                <h2 class="mx-auto">Welcome, {{ user.first_name}}!</h2>
+                
+            
+            </div>
+
+            {% comment %} <!-- Space between Header and Content -->
+            <div class="card-body mt-4"> {% endcomment %}
+
+                <!-- Rules Section -->
+                <h5 class="text-center text-primary mt-4">Important Rules for Online Exam</h5>
+                <ol>
+                    <li><strong> Device and Internet</strong>: Ensure your device is fully charged or connected to a reliable power source and has a stable, high-speed internet connection for the entire duration of the exam.</li>
+                    <li><strong> Webcam and Microphone</strong>: Keep your webcam and microphone turned on at all times. These are mandatory for real-time monitoring during the exam.</li>
+                    <li><strong> No Unauthorized Tabs or Devices</strong>: Refrain from opening additional browser tabs, applications, or using external devices such as phones, smartwatches, or notes during the session.</li>
+                    <li><strong> Stay in Frame</strong>: Ensure your face is clearly visible in the webcam frame throughout the exam. Avoid looking away from the screen frequently.</li>
+                    <li><strong> Quiet and Distraction-Free Environment</strong>: Select a quiet location where you won’t be interrupted. Background noise or distractions may lead to your session being flagged.</li>
+                    <li><strong> Individual Effort Only</strong>: The examination is strictly individual. Any form of collaboration or communication with others is prohibited.</li>
+                    <li><strong> Behavior Monitoring</strong>: Be aware that AI systems and live proctors may monitor your activity, including webcam and microphone feeds. Suspicious activities will be flagged for review.</li>
+                    <li><strong> Consequences of Rule Violations</strong>: Any violation of these rules, including misconduct or suspicious behavior, may lead to immediate termination of your exam session, invalidation of your results, and possible disciplinary action.</li>
+                </ol>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="card-footer text-center">
+                &copy; 2026 FuturProctor. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('start-exam-btn').addEventListener('click', function () {
+            window.location.href = "{% url 'exam' %}";
+        });
+    </script>
+</body>
+</html>

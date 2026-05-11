@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Student Login with Face Recognition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .modal-content {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90vw;
+            height: 90vh;
+            border-radius: 10px;
+        }
+        .modal-title {
+            text-align: center;
+            width: 100%;
+            background-color: #0d6efd;
+            color: white;
+            font-size: 1.5rem;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+        }
+        #loginModal {
+            display: block;
+            width: 90vw;
+            height: 90vh;
+        }
+        #webcam-stream {
+            max-width: 300px;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .modal-body {
+            padding: 15px;
+            height: calc(80vh - 120px);
+            overflow-y: auto;
+        }
+        .card {
+            margin-top: 10px;
+            border: 2px solid #0d6efd;
+            border-radius: 8px;
+        }
+        .captured-photo {
+            display: none;
+            margin-top: 10px;
+        }
+        .captured-photo img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-info {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-info:hover {
+            background-color: #0a58ca;
+            border-color: #0a58ca;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-dialog {
+            margin: 0;
+            max-width: 100%;
+            height: 100vh;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+            padding: 10px;
+        }
+        .instructions {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .instructions h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Student Login with Face Recognition</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="container mt-3">
+                    <!-- Instructions Section -->
+                    <div class="alert alert-warning instructions" role="alert">
+                        <h4 class="alert-heading">Instructions for Login:</h4>
+                        <ul>
+                            
+                            <li>First Click on <strong>Capture Photo</strong> to take a snapshot.</li>
+                            <li>Enter your email and password in the login form.</li>
+                            <li>Click <strong>Login</strong> to authenticate.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Login Form Section -->
+                            <div class="col-md-6">
+                                <form id="login-form" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div id="error-message" class="alert alert-danger d-none"></div>
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Email:</label>
+                                        <input type="email" id="username" name="email" class="form-control" placeholder="Enter your email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password:</label>
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                                    </div>
+                                    <input type="hidden" id="captured_photo_input" name="captured_photo">
+                                </form>
+                            </div>
+
+                            <!-- Face Recognition Section -->
+                            <div class="col-md-6 text-center">
+                                <h5>Face Recognition</h5>
+                                <div class="position-relative">
+                                    <img id="webcam-stream" src="{% url 'video_feed' %}" alt="Video Feed" class="img-fluid rounded shadow">
+                                    <canvas id="canvas" class="d-none"></canvas>
+                                </div>
+                                <button id="take-photo-btn" class="btn btn-info mt-3">Capture Photo</button>
+
+                                <!-- Captured Photo Section -->
+                                <div class="captured-photo card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Captured Photo</h5>
+                                        <img id="captured-photo" alt="Captured Photo" class="img-thumbnail">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer with Buttons aligned in a row -->
+                    <div class="modal-footer button-row">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="login-btn">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const webcamStream = document.getElementById('webcam-stream');
+        const takePhotoBtn = document.getElementById('take-photo-btn');
+        const canvas = document.getElementById('canvas');
+        const capturedPhoto = document.getElementById('captured-photo');
+        const capturedPhotoInput = document.getElementById('captured_photo_input');
+        const errorMessage = document.getElementById('error-message');
+        const loginBtn = document.getElementById('login-btn');
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        let photoCaptured = false;
+
+        takePhotoBtn.addEventListener('click', () => {
+            canvas.width = webcamStream.width;
+            canvas.height = webcamStream.height;
+
+            const context = canvas.getContext('2d');
+            context.drawImage(webcamStream, 0, 0, canvas.width, canvas.height);
+
+            const photoData = canvas.toDataURL('image/png');
+            capturedPhoto.src = photoData;
+            capturedPhotoInput.value = photoData;
+            photoCaptured = true;
+            errorMessage.classList.add('d-none');
+        });
+
+        loginBtn.addEventListener('click', (event) => {
+            if (!photoCaptured) {
+                event.preventDefault();
+                errorMessage.textContent = "Please capture your photo before logging in.";
+                errorMessage.classList.remove('d-none');
+            } else {
+                const formData = new FormData();
+                formData.append('email', document.getElementById('username').value);
+                formData.append('password', document.getElementById('password').value);
+                formData.append('captured_photo', capturedPhotoInput.value);
+
+                fetch('/login/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const studentName = data.student_name || "Student";
+                        const redirectUrl = data.redirect_url || "{% url 'dashboard' %}";
+
+                        alert("Welcome, " + studentName);
+                        window.location.href = redirectUrl;
+                    } else {
+                        errorMessage.textContent = data.error || "Login failed.";
+                        errorMessage.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    errorMessage.textContent = "An error occurred during login.";
+                    errorMessage.classList.remove('d-none');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

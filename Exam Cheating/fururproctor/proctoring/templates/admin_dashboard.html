@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FuturProctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .zoomable-image {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .zoomable-image:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Panel -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">AI-Based Online Exam Proctoring System</a>
+            <div class="d-flex ms-auto">
+                <a href="{% url 'home' %}" class="btn btn-outline-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 bg-light py-4">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="btn btn-primary" href="{% url 'add_question' %}">Add Question</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <div class="container">
+                    <h2 class="mt-4">Examinees List</h2>
+                    <div class="input-group mb-3">
+                        <input type="text" id="searchBar" placeholder="Search by name or email..." class="form-control">
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Exam Name</th>
+                                    <th>Score (%)</th>
+                                    <th>Trust Score (%)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.email }}</td>
+                                    <td>{{ student.exams.first.exam_name|default:"No Exam" }}</td>
+                                    <td>{{ student.exams.first.percentage_score|default:"0" }}%</td>
+                                    <td>{{ student.trust_score|default:"100" }}%</td>
+                                    <td>
+                                        <a href="{% url 'report_page' student.id %}" class="btn btn-outline-primary btn-sm me-1">View Report</a>
+                                        <a href="#" class="btn btn-outline-warning btn-sm me-1">Edit</a>
+                                        <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('searchBar').addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const email = row.cells[1].textContent.toLowerCase();
+                if (name.includes(searchText) || email.includes(searchText)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

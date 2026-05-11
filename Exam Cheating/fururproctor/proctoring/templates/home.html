@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureProctor - Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images\monitor_logo.png' %}" alt="FutureProctor Logo" class="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a></li>
+                    <li class="nav-item"><a class="btn btn-secondary ms-2" href="{% url 'registration' %}" role="button">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4">AI-Based Online Exam Proctoring System</h1>
+                    <h2 class="mb-4">A Proctoring System Powered by Artificial Intelligence!</h2>
+                    <div class="cta-buttons">
+                       
+                        {% comment %} <a href="#" class="btn btn-outline-primary btn-lg">Detailed Presentation</a> {% endcomment %}
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image-container">
+                        <img src="{% static 'images/ai-procotor.png' %}" alt="AI Proctor Dashboard" class="img-fluid floating-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% load static %}
+<section class="ai-proctor-features">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="ai-proctor-illustration">
+                    <img src="{% static 'images/ai-sec.png' %}" alt="AI Proctor Illustration" class="img-fluid ai-head-image">
+                    <div class="ai-head-graphic">
+                        <div class="ai-text">AI</div>
+                        <div class="circuit-lines"></div>
+                        <div class="floating-dots"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="features-content">
+                    <h2 class="section-title">AI-Based Online Exam Proctoring System</h2>
+                    <h3 class="section-subtitle">A Necessary Ingredient for Credible Online Certificates!</h3>
+                    <ul class="features-list">
+                        <li>Ensures credibility of exams results</li>
+                        <li>Very easy to use by both instructors and students</li>
+                        <li>Works with any examination portal!</li>
+                        <li>Minimal traffic to work even with weak internet connections</li>
+                        <li>Real time monitoring and detailed final reports for all suspicious activities by students</li>
+                        <li>Uses face recognition, audio analysis to ensure in class exam similar experience</li>
+                        <li>And many other practical features ...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% load static %}
+<section class="advanced-features-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Advanced Proctoring Features</h2>
+                <p class="section-subtitle">Comprehensive Monitoring for Exam Integrity</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/facial.png' %}" alt="Browser Tab Detection" class="img-fluid">
+                    </div>
+                    <h3>Face verification</h3>
+                    <p>The System opens the exam only after facial verification. The student uploads his picture during registration, and it is used in all his exams to make sure he doesn't leave the examination place.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/touch.png' %}" alt="Browser Tab Detection" class="img-fluid">
+                    </div>
+                    <h3>Browser Tab Switching Detection</h3>
+                    <p>This system will monitor tab switching and flag any unauthorized attempts during the exam.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/object.png' %}" alt="Object Detection" class="img-fluid">
+                    </div>
+                    <h3>Object Detection</h3>
+                    <p>This system will detect unauthorized objects like books and smartphones during the exam.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/eye.png' %}" alt="Gaze Detection" class="img-fluid">
+                    </div>
+                    <h3>Gaze Detection</h3>This system will detect gaze movement to ensure candidates stay focused on the exam screen.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/mp.png' %}" alt="Multiple Person Detection" class="img-fluid">
+                    </div>
+                    <h3>Multiple Person Detection</h3>This system will detect the presence of multiple individuals during the exam to ensure proper authentication.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <img src="{% static 'images/audio.png' %}" alt="Audio Analysis" class="img-fluid">
+                    </div>
+                    <h3>Audio Analysis</h3>
+                    <p>This system will record and analyze background sounds to detect any suspicious noises during the exam.</p>
+            </div>
+            
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="data-storage-note">
+                    <strong>Secure Data Management:</strong> All collected data is securely stored in PostgreSQL for comprehensive review and reporting.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">Get in Touch for More Information</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form class="contact-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer text-center py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p>&copy; 2026 AI Proctor. All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="social-links mt-3">
+            
+                    <a href="https://www.linkedin.com/in/hemant-singh-chauhan" class="text-light mx-2"><i class="fab fa-linkedin-in"></i></a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
